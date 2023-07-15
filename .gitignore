@@ -1,4 +1,3 @@
----
 # This file is part of Ansible role geoffreyvanwyk.php.
 #
 # Ansible role geoffreyvanwyk.php is free software: you can redistribute it
@@ -15,9 +14,8 @@
 # Ansible role geoffreyvanwyk.php. If not, see <https://www.gnu.org/licenses/>.
 
 ##
- # Sets the default values of the roles variables that can be overridden.
- #
- # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+# Files and directories that Git should ignore.
+#
+# @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
 ##
-
-php_version: 8.2
+/.vscode/settings.json
