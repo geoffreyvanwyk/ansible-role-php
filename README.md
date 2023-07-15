@@ -7,7 +7,7 @@ Requirements
 ------------
 > Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
 
-Only [supported versions of PHP](https://php.net/supported-versions.php) are tested to work with this role on long-term support [versions of Ubuntu](https://wiki.ubuntu.com/Releases) that are not yet end-of-life.
+Only [supported versions of PHP](https://php.net/supported-versions.php) are tested to work with this role on long-term support [versions of Ubuntu](https://wiki.ubuntu.com/Releases) that still receive standard support.
 
 Role Variables
 --------------
