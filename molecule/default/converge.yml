@@ -23,12 +23,35 @@
 
 - name: Converge
   hosts: all
-  tasks:
+
+  vars_files:
+    - ../../defaults/main.yml
+
+  pre_tasks:
     - name: Update APT package repository
       ansible.builtin.apt:
         update_cache: true
         cache_valid_time: 3600
 
-    - name: Include geoffreyvanwyk.php
-      ansible.builtin.include_role:
-        name: "geoffreyvanwyk.php"
+  roles:
+    - role: geoffreyvanwyk.php
+
+  post_tasks:
+    - name: Set up Apache web server
+      when: php_ini_apache | length > 0
+      block:
+      - name: Install Apache web server
+        ansible.builtin.apt:
+          package:
+            - apache2
+
+      - name: Start Apache web server
+        ansible.builtin.sysvinit:
+          name: apache2
+          state: started
+
+      - name: Install script for displaying PHP info
+        ansible.builtin.copy:
+          src: phpinfo.php
+          dest: /var/www/html
+          mode: u=rw,g=r,o=r

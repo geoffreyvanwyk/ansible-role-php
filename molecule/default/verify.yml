@@ -34,3 +34,46 @@
       ansible.builtin.command:
         cmd: php{{ php_version }} --version
       changed_when: false
+
+    - name: List enabled PHP modules
+      ansible.builtin.command:
+        cmd: php{{ php_version }} -m
+      changed_when: false
+      register: php_modules
+
+    - name: Confirm enabled PHP modules
+      loop: "{{ php_mod_enabled }}"
+      ansible.builtin.assert:
+        that: "{{ item in php_modules.stdout_lines }}"
+
+    - name: Confirm disabled PHP modules
+      loop: "{{ php_mod_disabled }}"
+      ansible.builtin.assert:
+        that: "{{ not item in php_modules.stdout_lines }}"
+
+    - name: Confirm initialization values - CLI
+      loop: "{{ php_ini_cli }}"
+      ansible.builtin.shell:
+        executable: /usr/bin/bash
+        cmd: set -o pipefail && php{{ php_version }} -i | grep -P '^{{ item.name }} *=>.*=> *{{ item.value }}'
+      changed_when: false
+
+    - name: Display PHP info for Apache
+      when: php_ini_apache | length > 0
+      ansible.builtin.uri:
+        url: http://localhost/phpinfo.php
+        return_content: true
+      register: php_info_apache
+
+    - name: Confirm initialization values - Apache
+      loop: "{{ php_ini_apache }}"
+      ansible.builtin.assert:
+        that: "{{ php_info_apache.content
+          | regex_findall('<tr><td class=\"e\">'{{ item.name }}'</td><td class=\"v\">'{{ item.value }}) }}"
+
+    - name: Confirm initialization values - FPM
+      loop: "{{ php_ini_fpm }}"
+      ansible.builtin.shell:
+        executable: /usr/bin/bash
+        cmd: set -o pipefail && php-fpm{{ php_version }} -tt | grep -P '{{ item.name }} = {{ item.value }}'
+      changed_when: false

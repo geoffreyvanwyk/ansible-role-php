@@ -21,3 +21,8 @@
 ##
 
 php_version: 8.2
+php_mod_enabled: []
+php_mod_disabled: []
+php_ini_cli: []
+php_ini_apache: []
+php_ini_fpm: []
