@@ -37,3 +37,27 @@
     package:
       - php{{ php_version }}
     state: present
+
+- name: Install PHP modules that should be enabled
+  loop: "{{ php_mod_enabled }}"
+  ansible.builtin.apt:
+    package: php{{ php_version }}-{{ item }}
+    state: present
+
+- name: List enabled PHP modules
+  ansible.builtin.command:
+    cmd: php{{ php_version }} -m
+  changed_when: false
+  register: php_modules
+
+- name: Enable PHP modules
+  loop: "{{ php_mod_enabled }}"
+  ansible.builtin.command:
+    cmd: phpenmod -v {{ php_version }} {{ item }}
+  changed_when: item not in php_modules.stdout_lines
+
+- name: Disable PHP modules
+  loop: "{{ php_mod_disabled }}"
+  ansible.builtin.command:
+    cmd: phpdismod -v {{ php_version }} {{ item }}
+  changed_when: item in php_modules.stdout_lines
