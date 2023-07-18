@@ -64,7 +64,7 @@ The PHP initialization settings for the command-line, for example:
 ```plain
 php_ini_cli:
   - name: allow_url_fopen
-    value: false
+    value: Off
   - name: memory_limit
     value: -1
   - name: date.timezone
