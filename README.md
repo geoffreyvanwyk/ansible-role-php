@@ -48,9 +48,9 @@ The PHP modules (extensions) that you want to disable in addition to the modules
 
 ```plain
 php_mod_disabled:
-  - json
-  - mbstring
-  - zip
+  - shmop
+  - sockets
+  - dom
 ```
 
 ---
