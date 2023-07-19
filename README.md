@@ -89,6 +89,8 @@ php_ini_apache:
     value: 2
 ```
 
+If you set initialization values for Apache, the role will assume that Apache is installed and will attempt to restart Apache after setting them. If Apache is not installed, the role will fail.
+
 ---
 
 ```yaml

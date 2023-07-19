@@ -67,10 +67,24 @@
   community.general.ini_file:
     path: /etc/php/{{ php_version }}/cli/php.ini
     section: "{{ item.name
-                | regex_search('^.+\\.')
-                | regex_replace('\\.$')
-                | regex_replace('^None$', 'PHP') }}"
+      | regex_search('^.+\\.')
+      | regex_replace('\\.$')
+      | regex_replace('^None$', 'PHP') }}"
     option: "{{ item.name }}"
     value: "{{ item.value }}"
     state: present
     mode: u=rw,g=r,o=r
+
+- name: Set initialization settings - Apache
+  loop: "{{ php_ini_apache }}"
+  community.general.ini_file:
+    path: /etc/php/{{ php_version }}/apache2/php.ini
+    section: "{{ item.name
+      | regex_search('^.+\\.')
+      | regex_replace('\\.$')
+      | regex_replace('^None$', 'PHP') }}"
+    option: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    mode: u=rw,g=r,o=r
+  notify: Restart Apache web server

@@ -33,18 +33,18 @@ php_mod_disabled:
   - dom
 php_ini_cli:
   - name: allow_url_fopen
-    value: Off
+    value: "Off"
   - name: memory_limit
     value: -1
   - name: date.timezone
     value: "Africa/Johannesburg"
 php_ini_apache:
   - name: post_max_size
-    value: 128M
+    value: 127M
   - name: upload_max_filesize
-    value: 32M
+    value: 33M
   - name: max_file_uploads
-    value: 2
+    value: 13
 php_ini_fpm:
   - name: max_execution_time
     value: 300

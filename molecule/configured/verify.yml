@@ -70,7 +70,9 @@
       loop: "{{ php_ini_apache }}"
       ansible.builtin.assert:
         that: "{{ php_info_apache.content
-          | regex_findall('<tr><td class=\"e\">'{{ item.name }}'</td><td class=\"v\">'{{ item.value }}) }}"
+          | regex_findall('<tr><td class=\"e\">' + item.name + '</td><td class=\"v\">' + (item.value | string))
+          | list
+          | length > 0 }}"
 
     - name: Confirm initialization values - FPM
       loop: "{{ php_ini_fpm }}"
