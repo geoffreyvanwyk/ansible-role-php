@@ -61,3 +61,16 @@
   ansible.builtin.command:
     cmd: phpdismod -v {{ php_version }} {{ item }}
   changed_when: item in php_modules.stdout_lines
+
+- name: Set initialization settings - CLI
+  loop: "{{ php_ini_cli }}"
+  community.general.ini_file:
+    path: /etc/php/{{ php_version }}/cli/php.ini
+    section: "{{ item.name
+                | regex_search('^.+\\.')
+                | regex_replace('\\.$')
+                | regex_replace('^None$', 'PHP') }}"
+    option: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    mode: u=rw,g=r,o=r
