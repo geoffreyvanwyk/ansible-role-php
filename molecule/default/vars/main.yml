@@ -15,21 +15,9 @@
 # Ansible role geoffreyvanwyk.php. If not, see <https://www.gnu.org/licenses/>.
 
 ##
-# The central configuration entrypoint for Molecule.
+# Variable values different from the defaults; also, required variables without
+# default values.
 #
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
 # @see        The Scenario Layout (https://ansible.readthedocs.io/projects/molecule/getting-started/#the-scenario-layout)
 ##
-
-dependency:
-  name: galaxy
-driver:
-  name: docker
-platforms:
-  - name: instance
-    image: "geerlingguy/docker-${MOLECULE_DISTRO:-ubuntu2004}-ansible:latest"
-    pre_build_image: true
-provisioner:
-  name: ansible
-verifier:
-  name: ansible

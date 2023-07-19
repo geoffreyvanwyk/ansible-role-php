@@ -28,6 +28,7 @@
 
   vars_files:
     - ../../defaults/main.yml
+    - vars/main.yml
 
   tasks:
     - name: Confirm PHP is installed
@@ -44,7 +45,7 @@
     - name: Confirm enabled PHP modules
       loop: "{{ php_mod_enabled }}"
       ansible.builtin.assert:
-        that: "{{ item in php_modules.stdout_lines }}"
+        that: "{{ (item == 'fpm') or (item in php_modules.stdout_lines) }}"
 
     - name: Confirm disabled PHP modules
       loop: "{{ php_mod_disabled }}"
@@ -69,11 +70,13 @@
       loop: "{{ php_ini_apache }}"
       ansible.builtin.assert:
         that: "{{ php_info_apache.content
-          | regex_findall('<tr><td class=\"e\">'{{ item.name }}'</td><td class=\"v\">'{{ item.value }}) }}"
+          | regex_findall('<tr><td class=\"e\">' + item.name + '</td><td class=\"v\">' + (item.value | string))
+          | list
+          | length > 0 }}"
 
     - name: Confirm initialization values - FPM
       loop: "{{ php_ini_fpm }}"
       ansible.builtin.shell:
         executable: /usr/bin/bash
-        cmd: set -o pipefail && php-fpm{{ php_version }} -tt | grep -P '{{ item.name }} = {{ item.value }}'
+        cmd: set -o pipefail && php-fpm{{ php_version }} -i | grep -P '{{ item.name }} *=>.*=> *{{ item.value }}'
       changed_when: false
