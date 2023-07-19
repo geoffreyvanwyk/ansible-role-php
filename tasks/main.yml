@@ -88,3 +88,17 @@
     state: present
     mode: u=rw,g=r,o=r
   notify: Restart Apache web server
+
+- name: Set initialization settings - FPM
+  loop: "{{ php_ini_fpm }}"
+  community.general.ini_file:
+    path: /etc/php/{{ php_version }}/fpm/php.ini
+    section: "{{ item.name
+      | regex_search('^.+\\.')
+      | regex_replace('\\.$')
+      | regex_replace('^None$', 'PHP') }}"
+    option: "{{ item.name }}"
+    value: "{{ item.value }}"
+    state: present
+    mode: u=rw,g=r,o=r
+  notify: Restart PHP server

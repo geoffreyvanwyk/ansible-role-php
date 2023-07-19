@@ -25,3 +25,8 @@
   ansible.builtin.sysvinit:
     name: apache2
     state: restarted
+
+- name: Restart PHP server
+  ansible.builtin.sysvinit:
+    name: php{{ php_version }}-fpm
+    state: restarted

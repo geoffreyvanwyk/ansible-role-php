@@ -27,10 +27,11 @@ php_mod_enabled:
   - intl
   - mysqli
   - xml
+  - fpm
 php_mod_disabled:
   - shmop
   - sockets
-  - dom
+  - iconv
 php_ini_cli:
   - name: allow_url_fopen
     value: "Off"

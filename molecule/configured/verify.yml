@@ -45,7 +45,7 @@
     - name: Confirm enabled PHP modules
       loop: "{{ php_mod_enabled }}"
       ansible.builtin.assert:
-        that: "{{ item in php_modules.stdout_lines }}"
+        that: "{{ (item == 'fpm') or (item in php_modules.stdout_lines) }}"
 
     - name: Confirm disabled PHP modules
       loop: "{{ php_mod_disabled }}"
@@ -78,5 +78,5 @@
       loop: "{{ php_ini_fpm }}"
       ansible.builtin.shell:
         executable: /usr/bin/bash
-        cmd: set -o pipefail && php-fpm{{ php_version }} -tt | grep -P '{{ item.name }} = {{ item.value }}'
+        cmd: set -o pipefail && php-fpm{{ php_version }} -i | grep -P '{{ item.name }} *=>.*=> *{{ item.value }}'
       changed_when: false
