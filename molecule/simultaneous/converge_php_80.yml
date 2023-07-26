@@ -1,0 +1,58 @@
+---
+# This file is part of Ansible role geoffreyvanwyk.php.
+#
+# Ansible role geoffreyvanwyk.php is free software: you can redistribute it
+# and/or modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Ansible role geoffreyvanwyk.php is distributed in the hope that it will be
+# useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+# Public License for more details.
+#
+# You should have received a copy of the GNU General Public License along with
+# Ansible role geoffreyvanwyk.php. If not, see <https://www.gnu.org/licenses/>.
+
+##
+ # Contains the call to the role when testing with Molecule.
+ #
+ # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+ # @see        The Scenario Layout (https://ansible.readthedocs.io/projects/molecule/getting-started/#the-scenario-layout)
+##
+
+- name: Converge
+  hosts: all
+
+  vars_files:
+    - ../../defaults/main.yml
+    - vars/vars_php_80.yml
+
+  pre_tasks:
+    - name: Update APT package repository
+      ansible.builtin.apt:
+        update_cache: true
+        cache_valid_time: 3600
+
+  roles:
+    - role: geoffreyvanwyk.php
+
+  post_tasks:
+    - name: Set up Apache web server
+      when: php_ini_apache | length > 0
+      block:
+      - name: Install Apache web server
+        ansible.builtin.apt:
+          package:
+            - apache2
+
+      - name: Start Apache web server
+        ansible.builtin.sysvinit:
+          name: apache2
+          state: started
+
+      - name: Install script for displaying PHP info
+        ansible.builtin.copy:
+          src: phpinfo.php
+          dest: /var/www/html
+          mode: u=rw,g=r,o=r
