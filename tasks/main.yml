@@ -54,7 +54,7 @@
   loop: "{{ php_mod_enabled }}"
   ansible.builtin.command:
     cmd: phpenmod -v {{ php_version }} {{ item }}
-  changed_when: item not in php_modules.stdout_lines
+  changed_when: (item != 'fpm') and (item not in php_modules.stdout_lines)
 
 - name: Disable PHP modules
   loop: "{{ php_mod_disabled }}"
