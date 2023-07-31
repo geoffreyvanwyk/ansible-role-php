@@ -16,6 +16,7 @@
 ##
 # Files and directories that Git should ignore.
 #
-# @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+# @copyright    2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+# @see          gitignore {@link https://git-scm.com/docs/gitignore}
 ##
 /.vscode/settings.json

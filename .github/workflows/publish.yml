@@ -23,6 +23,7 @@
 # your Ansible Galaxy profile.
 #
 # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+# @see        GitHub Actions {@link https://docs.github.com/en/actions}
 # @see        {@link https://github.com/marketplace/actions/publish-ansible-role-to-galaxy}
 # @see        {@link https://github.com/ansible/galaxy/issues/46}
 ##

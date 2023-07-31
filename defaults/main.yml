@@ -15,9 +15,10 @@
 # Ansible role geoffreyvanwyk.php. If not, see <https://www.gnu.org/licenses/>.
 
 ##
- # Sets the default values of the roles variables that can be overridden.
- #
- # @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+# Sets the default values of the role's variables that can be overridden.
+#
+# @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+# @see        Understanding Variable Precedence {@link https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#understanding-variable-precedence}
 ##
 
 php_version: 8.2

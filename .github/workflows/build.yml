@@ -18,7 +18,8 @@
 # Continuous integration in GitHub Actions that lints the Ansible code and tests
 # the role with Molecule.
 #
-# @copyright  2023 Geoffrey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+# @copyright  2023 Geoffhttps://git-scm.com/docs/gitignore}rey Bernardo van Wyk (https://geoffreyvanwyk.dev)
+# @see        GitHub Actions {@link https://docs.github.com/en/actions}
 ##
 
 name: Build
